@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface LaptopRepo extends JpaRepository<Laptop, Long>{
 
 }
-//комит
 
 
 

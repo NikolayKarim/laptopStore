@@ -3,34 +3,33 @@ package com.example.laptopstore.services;
 import com.example.laptopstore.DTO.LaptopDTO;
 import com.example.laptopstore.entity.Laptop;
 import com.example.laptopstore.repository.LaptopRepo;
-import com.example.laptopstore.util.Util;
 import java.lang.reflect.Field;
 import java.util.*;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
 @Service
+@RequiredArgsConstructor
 public class LaptopService {
-    @Autowired
-    private LaptopRepo laptopRepo;
+    private final  LaptopRepo laptopRepo;
+    private final SessionFactory sessionFactory;
+
 
     public List<Laptop> getAllLaptops(PageRequest pageRequest) {
         return laptopRepo.findAll(pageRequest).getContent();
     }
 
 
-    public List<Laptop> findbyDTOWithHibernate(LaptopDTO laptopDTO, PageRequest pageRequest) {
+    public List<Laptop> findbyDTOWithHibernate(LaptopDTO laptopDTO, PageRequest pageRequest) throws IllegalAccessException {
         List<Laptop> laptops = new ArrayList<>();
-        try (Session session = Util.getConnectionHiber().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             laptops = session.createQuery(getQuery(laptopDTO)).setFirstResult(pageRequest.getPageNumber())
                     .setMaxResults(pageRequest.getPageSize())
@@ -41,14 +40,14 @@ public class LaptopService {
         }
     }
 
-    public static String getQuery(LaptopDTO laptopDTO) {
+
+
+    public static String getQuery(LaptopDTO laptopDTO) throws IllegalAccessException{
         String query = "from Laptop where";
         Map<String, String> map = getLaptopDTOFields(laptopDTO);
         int count = map.size();
-        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            --count;
-            Map.Entry<String, String> entry = iterator.next();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            count--;
             query += " " + entry.getKey() + "=" + entry.getValue();
             if (count != 0) {
                 query += " and";
@@ -58,8 +57,7 @@ public class LaptopService {
 }
 
 
-    public static Map<String, String> getLaptopDTOFields(LaptopDTO laptopDTO) {
-        try {
+    public static Map<String, String> getLaptopDTOFields(LaptopDTO laptopDTO) throws IllegalAccessException{
             Class c = LaptopDTO.class;
 
             Field[] fs = c.getDeclaredFields();
@@ -70,41 +68,32 @@ public class LaptopService {
                     if (parseLong(fs[i].get(laptopDTO).toString()) != 0) {
                         mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
                         continue;
-                    } else {
-                        continue;
                     }
-                }
+                        continue;
 
+                }
 
                 if (fs[i].get(laptopDTO) instanceof Integer) {          //checking integer
                     if (parseInt(fs[i].get(laptopDTO).toString()) != 0) {
                         mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
                         continue;
-                    } else {
-                        continue;
                     }
+                        continue;
                 }
 
                 if (fs[i].get(laptopDTO) instanceof Double) {            //checking double
                     if (parseDouble(fs[i].get(laptopDTO).toString()) != 0) {
                         mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
                         continue;
-                    } else {
-                        continue;
                     }
+                    continue;
                 }
-
                 if (fs[i].get(laptopDTO) != null) {                     //checking others
                     mapFields.put(fs[i].getName(), "'" + fs[i].get(laptopDTO).toString() + "'");
                 }
             }
             return mapFields;
-        } catch (IllegalAccessException e) {
-            Map<String, String> map = new HashMap<>(new IllegalAccessException(e.getMessage()), "calamAleycum";
-            return map;
-        }
 
-        //комит
     }
 }
 

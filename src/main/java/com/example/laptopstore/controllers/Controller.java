@@ -4,16 +4,16 @@ import com.example.laptopstore.DTO.LaptopDTO;
 import com.example.laptopstore.entity.Laptop;
 import com.example.laptopstore.services.LaptopService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/laptop")
+@RequiredArgsConstructor
 public class Controller {
-    @Autowired
-    public LaptopService laptopService;
+    private final LaptopService laptopService;
 
     @GetMapping
     public ResponseEntity<List<Laptop>> getAllLaptops(
@@ -28,18 +28,16 @@ public class Controller {
     }
 
 
-
     @PostMapping("/hibernate")
     public ResponseEntity<List<Laptop>> getLaptopPostFilters(@RequestBody LaptopDTO laptopDTO,
                                                @RequestParam(required = false, defaultValue = "0") int page,
-                                               @RequestParam(required = false, defaultValue = "10") int size) {
+                                               @RequestParam(required = false, defaultValue = "10") int size) throws IllegalAccessException {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(laptopService.findbyDTOWithHibernate(laptopDTO,PageRequest.of(page,size)));
     }
 
 }
 
-//комент
 
 
 
