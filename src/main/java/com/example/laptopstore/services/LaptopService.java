@@ -109,7 +109,7 @@ public class LaptopService {
     }
 
     void newMEthod(String sdf){
-
+        System.out.println("Hello world");
     }
 }
 
