@@ -17,4 +17,6 @@ public class Util {
                 .applySettings(con.getProperties());
         return con.buildSessionFactory(sBuild.build());
     }
+
+    //commit
 }

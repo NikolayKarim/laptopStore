@@ -28,9 +28,6 @@ public class LaptopService {
     }
 
 
-
-
-
     public List<Laptop> findbyDTOWithHibernate(LaptopDTO laptopDTO, PageRequest pageRequest) {
         List<Laptop> laptops = new ArrayList<>();
         try (Session session = Util.getConnectionHiber().openSession()) {
@@ -46,67 +43,68 @@ public class LaptopService {
 
     public static String getQuery(LaptopDTO laptopDTO) {
         String query = "from Laptop where";
-        try {
-            Map<String, String> map = getLaptopDTOFields(laptopDTO);
-            int count = map.size();
-            Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-            while (iterator.hasNext()) {
-                --count;
-                Map.Entry<String, String> entry = iterator.next();
-                query += " " + entry.getKey() + "=" + entry.getValue();
-                if (count != 0) {
-                    query += " and";
-                }
+        Map<String, String> map = getLaptopDTOFields(laptopDTO);
+        int count = map.size();
+        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            --count;
+            Map.Entry<String, String> entry = iterator.next();
+            query += " " + entry.getKey() + "=" + entry.getValue();
+            if (count != 0) {
+                query += " and";
             }
-        } catch (IllegalAccessException e) {
-            e.getMessage();
         }
-
-
         return query;
-    }
+}
 
 
-    public static Map<String, String> getLaptopDTOFields(LaptopDTO laptopDTO) throws IllegalAccessException {
-        Class c = LaptopDTO.class;
-        Field[] fs = c.getDeclaredFields();
-        Map<String, String> mapFields = new HashMap<>();
-        for (int i = 0; i < fs.length; i++) {
+    public static Map<String, String> getLaptopDTOFields(LaptopDTO laptopDTO) {
+        try {
+            Class c = LaptopDTO.class;
 
-            if (fs[i].get(laptopDTO) instanceof Long) {          //checking integer
-                if (parseLong(fs[i].get(laptopDTO).toString()) != 0) {
-                    mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
-                    continue;
-                } else {
-                    continue;
+            Field[] fs = c.getDeclaredFields();
+            Map<String, String> mapFields = new HashMap<>();
+            for (int i = 0; i < fs.length; i++) {
+
+                if (fs[i].get(laptopDTO) instanceof Long) {          //checking integer
+                    if (parseLong(fs[i].get(laptopDTO).toString()) != 0) {
+                        mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
+                        continue;
+                    } else {
+                        continue;
+                    }
+                }
+
+
+                if (fs[i].get(laptopDTO) instanceof Integer) {          //checking integer
+                    if (parseInt(fs[i].get(laptopDTO).toString()) != 0) {
+                        mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
+                        continue;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if (fs[i].get(laptopDTO) instanceof Double) {            //checking double
+                    if (parseDouble(fs[i].get(laptopDTO).toString()) != 0) {
+                        mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
+                        continue;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if (fs[i].get(laptopDTO) != null) {                     //checking others
+                    mapFields.put(fs[i].getName(), "'" + fs[i].get(laptopDTO).toString() + "'");
                 }
             }
-
-
-            if (fs[i].get(laptopDTO) instanceof Integer) {          //checking integer
-                if (parseInt(fs[i].get(laptopDTO).toString()) != 0) {
-                    mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
-                    continue;
-                } else {
-                    continue;
-                }
-            }
-
-            if (fs[i].get(laptopDTO) instanceof Double) {            //checking double
-                if (parseDouble(fs[i].get(laptopDTO).toString()) != 0) {
-                    mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
-                    continue;
-                } else {
-                    continue;
-                }
-            }
-
-            if (fs[i].get(laptopDTO) != null) {                     //checking others
-                mapFields.put(fs[i].getName(), "'" + fs[i].get(laptopDTO).toString() + "'");
-            }
+            return mapFields;
+        } catch (IllegalAccessException e) {
+            Map<String, String> map = new HashMap<>(new IllegalAccessException(e.getMessage()), "calamAleycum";
+            return map;
         }
-        return mapFields;
-    }
 
+        //комит
+    }
 }
 

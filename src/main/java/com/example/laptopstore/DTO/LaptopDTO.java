@@ -33,6 +33,6 @@ public class LaptopDTO {
     public int usb_port;
     public String opportunity_to_improve;
     public double price;
-
+//комит
 
 }
