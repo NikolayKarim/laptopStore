@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,66 +23,44 @@ public class Laptop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true)
     private String country_made;
 
-    @Column(nullable = true)
     private Date date_of_made;
 
-    @Column(nullable = true)
     private String laptop_name;
 
-    @Column(nullable = true)
     private String laptop_model;
 
-
-    @Column(nullable = true)
     private String CPU_name;
 
-    @Column(nullable = true)
-    private int CPU_model;
+    private Integer CPU_model;
 
-    @Column(nullable = true)
-    private double cpu_GHz;
+    private Double cpu_GHz;
 
-    @Column(nullable = true)
-    private int RAM;
+    private Integer RAM;
 
-    @Column(nullable = true)
-    private int laptop_memory;
+    private Integer laptop_memory;
 
-    @Column(nullable = true)
     private String hdd;
 
-    @Column(nullable = true)
     private String ssd;
 
-    @Column(nullable = false)
     private String keyboard_backlight;
 
-    @Column(nullable = true)
-    private int mwh;
+    private Integer mwh;
 
-    @Column(nullable = true)
     private String bluetooth_model;
 
-    @Column(nullable = true)
-    private double wi_fi_model;
+    private Double wi_fi_model;
 
-    @Column(nullable = true)
-    private double mpx_camera;
+    private Double mpx_camera;
 
-    @Column(nullable = true)
     private String web_cam;
 
-    @Column(nullable = true)
-    private int usb_port;
+    private Integer usb_port;
 
-    @Column(nullable = true)
     private String opportunity_to_improve;
 
-    @Column(nullable = true)
-    private double price;
+    private Double price;
 
 }
-//комит

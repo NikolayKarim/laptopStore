@@ -11,14 +11,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import static java.lang.Double.parseDouble;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
+
 
 @Service
 @RequiredArgsConstructor
 public class LaptopService {
-    private final  LaptopRepo laptopRepo;
+    private final LaptopRepo laptopRepo;
     private final SessionFactory sessionFactory;
 
 
@@ -27,7 +25,7 @@ public class LaptopService {
     }
 
 
-    public List<Laptop> findbyDTOWithHibernate(LaptopDTO laptopDTO, PageRequest pageRequest) throws IllegalAccessException {
+    public List<Laptop> findbyDTOWithHibernate(LaptopDTO laptopDTO, PageRequest pageRequest)  {
         List<Laptop> laptops = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -37,12 +35,13 @@ public class LaptopService {
             transaction.commit();
             session.close();
             return laptops;
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 
 
-
-    public static String getQuery(LaptopDTO laptopDTO) throws IllegalAccessException{
+    public static String getQuery(LaptopDTO laptopDTO) throws IllegalAccessException {
         String query = "from Laptop where";
         Map<String, String> map = getLaptopDTOFields(laptopDTO);
         int count = map.size();
@@ -54,46 +53,26 @@ public class LaptopService {
             }
         }
         return query;
-}
+    }
 
 
-    public static Map<String, String> getLaptopDTOFields(LaptopDTO laptopDTO) throws IllegalAccessException{
-            Class c = LaptopDTO.class;
+    public static Map<String, String> getLaptopDTOFields(LaptopDTO laptopDTO) throws IllegalAccessException {
+        Class c = LaptopDTO.class;
 
-            Field[] fs = c.getDeclaredFields();
-            Map<String, String> mapFields = new HashMap<>();
-            for (int i = 0; i < fs.length; i++) {
-
-                if (fs[i].get(laptopDTO) instanceof Long) {          //checking integer
-                    if (parseLong(fs[i].get(laptopDTO).toString()) != 0) {
-                        mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
-                        continue;
-                    }
-                        continue;
-
-                }
-
-                if (fs[i].get(laptopDTO) instanceof Integer) {          //checking integer
-                    if (parseInt(fs[i].get(laptopDTO).toString()) != 0) {
-                        mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
-                        continue;
-                    }
-                        continue;
-                }
-
-                if (fs[i].get(laptopDTO) instanceof Double) {            //checking double
-                    if (parseDouble(fs[i].get(laptopDTO).toString()) != 0) {
-                        mapFields.put(fs[i].getName(), fs[i].get(laptopDTO).toString());
-                        continue;
-                    }
-                    continue;
-                }
-                if (fs[i].get(laptopDTO) != null) {                     //checking others
-                    mapFields.put(fs[i].getName(), "'" + fs[i].get(laptopDTO).toString() + "'");
+        Field[] fs = c.getDeclaredFields();
+        Map<String, String> map = new HashMap<>();
+        for(Field field : fs){
+            if(Objects.nonNull(field)){
+                if (field.get(laptopDTO)==null) continue;
+                if (field.get(laptopDTO) instanceof String){
+                    map.put(field.getName(),"'"+field.get(laptopDTO).toString()+"'");
+                }else {
+                   map.put(field.getName(), field.get(laptopDTO).toString());
                 }
             }
-            return mapFields;
-
+        }
+        return map;
     }
 }
+
 
