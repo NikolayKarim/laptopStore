@@ -1,4 +1,8 @@
 spring:
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog-master.xml
+    clear-checksums: true
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres

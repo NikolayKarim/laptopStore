@@ -30,6 +30,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.jooq', name: 'jooq', version: '3.18.4'
+	implementation('org.liquibase:liquibase-core')
 }
 
 tasks.named('test') {
