@@ -79,7 +79,6 @@ public class LaptopJDBCService {
 
     public static Map<String, String> getLaptopDTOFields(LaptopDTO laptopDTO) throws IllegalAccessException {
         Class c = LaptopDTO.class;
-
         Field[] fs = c.getDeclaredFields();
         Map<String, String> map = new HashMap<>();
         for (Field field : fs) {
@@ -95,5 +94,4 @@ public class LaptopJDBCService {
         return map;
     }
 }
-
-
+// commit thirth
