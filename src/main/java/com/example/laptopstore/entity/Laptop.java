@@ -62,5 +62,4 @@ public class Laptop {
     private String opportunity_to_improve;
 
     private Double price;
-
 }

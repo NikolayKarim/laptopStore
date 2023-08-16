@@ -1,7 +1,5 @@
 package com.example.laptopstore.DTO;
 
-
-
 import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +31,4 @@ public class LaptopDTO {
     public Integer usb_port;
     public String opportunity_to_improve;
     public Double price;
-//комит
-
 }

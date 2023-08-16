@@ -9,9 +9,5 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
-  jooq:
-    sql-dialect: postgres
 server:
   port: 8080
-
-#  commit

@@ -9,5 +9,5 @@ public class LaptopStoreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LaptopStoreApplication.class, args);
 	}
-//commit
+
 }
