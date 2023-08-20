@@ -17,19 +17,20 @@ public class CriteriaService {
     private final EntityManager session;
 
     public Page<Laptop> getCriteriaWithPrincipal(Map<String, List<String>> map , int page, int size){
+
         PageRequest pageRequest = PageRequest.of(page,size);
-    CriteriaBuilder cb = session.getCriteriaBuilder();
-    CriteriaQuery<Laptop> cq = cb.createQuery(Laptop.class);
-    Root<Laptop> root = cq.from(Laptop.class);
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Laptop> cq = cb.createQuery(Laptop.class);
+        Root<Laptop> root = cq.from(Laptop.class);
 
         Predicate[] predicates = new Predicate[map.size()];
         Iterator<Map.Entry<String,List<String>>> iterator = map.entrySet().iterator();
 
         for(int i =0; i<map.size();i++){
-        Map.Entry<String, List<String>> entry = iterator.next();
+            Map.Entry<String, List<String>> entry = iterator.next();
             Expression<String> parentExpression = root.get(entry.getKey());
             Predicate parentPredicate = parentExpression.in(entry.getValue());
-        predicates[i] = parentPredicate;
+            predicates[i] = parentPredicate;
 
         }
         cq.select(root).where(predicates);
@@ -41,4 +42,5 @@ public class CriteriaService {
         return new PageImpl<>(pageContent, pageRequest, laptops.size());
     }
 }
+// new comment
 
