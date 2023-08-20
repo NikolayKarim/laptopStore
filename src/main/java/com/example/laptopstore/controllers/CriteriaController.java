@@ -22,3 +22,4 @@ public class CriteriaController {
         return serv.getCriteriaWithPrincipal(map,page,size);
     }
 }
+//commit
