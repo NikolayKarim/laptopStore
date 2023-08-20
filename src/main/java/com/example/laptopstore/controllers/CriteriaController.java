@@ -1,5 +1,6 @@
 package com.example.laptopstore.controllers;
 
+
 import com.example.laptopstore.entity.Laptop;
 import com.example.laptopstore.services.CriteriaService;
 import java.util.List;
@@ -17,8 +18,11 @@ public class CriteriaController {
 
     @PostMapping("/correct")
     Page<Laptop> criteriaWithPrincipal(@RequestBody Map<String, List<String>> map,
-                                 @RequestParam(value = "page",defaultValue = "0") int page,
-                                 @RequestParam(value = "size",defaultValue = "10") int size){
+                                       @RequestParam(value = "page",defaultValue = "0") int page,
+                                       @RequestParam(value = "size",defaultValue = "10") int size){
         return serv.getCriteriaWithPrincipal(map,page,size);
     }
 }
+//firstCommit
+//secondCommit
+//thirth commit
