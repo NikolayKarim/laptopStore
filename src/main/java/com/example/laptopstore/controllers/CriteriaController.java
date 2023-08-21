@@ -16,13 +16,10 @@ public class CriteriaController {
     private final CriteriaService serv;
 
 
-    @PostMapping("/correct")
+    @PostMapping("/body")
     Page<Laptop> criteriaWithPrincipal(@RequestBody Map<String, List<String>> map,
                                        @RequestParam(value = "page",defaultValue = "0") int page,
                                        @RequestParam(value = "size",defaultValue = "10") int size){
         return serv.getCriteriaWithPrincipal(map,page,size);
     }
 }
-//firstCommit
-//secondCommit
-//thirth commit
