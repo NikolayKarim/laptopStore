@@ -94,6 +94,7 @@ public class LaptopJDBCService {
         }
         return map;
     }
+    //coment for commit
 }
 
 
