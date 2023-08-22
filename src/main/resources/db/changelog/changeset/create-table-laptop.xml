@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
+    <changeSet author="Nikolay" id="creat-table-laptop">
+        <createTable tableName="laptop">
+            <column name="id" type="bigint" remarks="Identification" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" /> </column>
+            <column name="cpu_model" type="int" remarks="CPU model " />
+            <column name="cpu_name" type="varchar(255)" remarks="CPU name" />
+            <column name="ram" type="int" remarks="RAM memory" />
+            <column name="bluetooth_model" type="varchar(255)" remarks="Blouetooth model" />
+            <column name="country_made" type="varchar(255)" remarks="Made by country" />
+            <column name="cpu_ghz" type="float" remarks="CPU GHz" />
+            <column name="date_of_made" type="date" remarks="Date of made" />
+            <column name="hdd" type="varchar(255)" remarks="Memory type HDD" />
+            <column name="keyboard_backlight" type="varchar(255)" remarks="Keyboard backlight" />
+            <column name="laptop_memory" type="int" remarks="Laptop's memory" />
+            <column name="laptop_model" type="varchar(255)" remarks="Laptop's model" />
+            <column name="laptop_name" type="varchar(255)" remarks="Laptop's name " />
+            <column name="mpx_camera" type="float" remarks="Camera's pixels" />
+            <column name="mwh" type="int" remarks="Battery power" />
+            <column name="opportunity_to_improve" type="varchar(255)" remarks="Opportunity to improve" />
+            <column name="price" type="float" remarks="Price" />
+            <column name="ssd" type="varchar(255)" remarks="Memory type SSD" />
+            <column name="usb_port" type="int" remarks="USB port" />
+            <column name="web_cam" type="varchar(255)" remarks="Web Camera" />
+            <column name="wi_fi_model" type="float" remarks="Wi-Fi model" />
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
+
+
+
