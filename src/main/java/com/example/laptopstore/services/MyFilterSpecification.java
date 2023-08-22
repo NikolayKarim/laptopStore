@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,37 +16,36 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FilterSpecification<T> {
-    LaptopSpecRepo laptopSpecRepo;
+public class MyFilterSpecification<T> {
+    private final LaptopSpecRepo laptopSpecRepo;
 
 
     public Page<Laptop> findBySpecDTO(LaptopDTO dto, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        List<Predicate> listPredicates = new ArrayList<>();
-
-
         return laptopSpecRepo.findAll(getSpecification(dto), pageRequest);
     }
 
+
     Specification<Laptop> getSpecification(LaptopDTO dto) {
         return ((root, query, criteriaBuilder) -> {
-            List<LaptopDTO> listDTO = new ArrayList<>();
             Field[] fields = LaptopDTO.class.getDeclaredFields();
             List<Predicate> predicates = new ArrayList<>();
-            for (Field field : fields) {
-                if (field != null) {
-                    Expression<String> parentExpression = root.get(field.getName());
-                    Predicate parentPredicate = null;
-                    try {
-                        parentPredicate = parentExpression.in(field.get(dto));
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
+            try {
+                for (Field field : fields) {
+                    if (Objects.nonNull(field)) {
+                        List<Object> test = (List<Object>) field.get(dto);
+                        if (Objects.isNull(test)) continue;
+                        if (test.size()==0) continue;
+
+                        Predicate parentPredicate = root.get(field.getName()).in((List<Object>)field.get(dto));
+                        predicates.add(parentPredicate);
                     }
-                    predicates.add(parentPredicate);
                 }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-            }
-             throw new RuntimeException("filter not correct");
+                } catch(IllegalAccessException e){
+                    throw new RuntimeException(e.getCause() + " !!!! DTO's field is impty ");
+                }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         }
         );
     }

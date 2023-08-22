@@ -82,7 +82,7 @@ public class LaptopJDBCService {
         Field[] fs = c.getDeclaredFields();
         Map<String, String> map = new HashMap<>();
         for (Field field : fs) {
-            if (Objects.nonNull(field)) {
+            if (Objects.nonNull(field)){
                 if (field.get(laptopDTO) == null) continue;
                 if (field.get(laptopDTO) instanceof String) {
                     map.put(field.getName(), "'" + field.get(laptopDTO).toString() + "'");
@@ -94,4 +94,3 @@ public class LaptopJDBCService {
         return map;
     }
 }
-// commit thirth
