@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/laptop")
 @RequiredArgsConstructor
-public class Controller {
+public class JDBCController {
     private final LaptopJDBCService laptopJDBCService;
+
+
 
     @GetMapping
     public Page<Laptop> getAllLaptops(

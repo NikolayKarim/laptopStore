@@ -2,7 +2,7 @@ package com.example.laptopstore.controllers;
 
 import com.example.laptopstore.DTO.LaptopDTO;
 import com.example.laptopstore.entity.Laptop;
-import com.example.laptopstore.services.MyFilterSpecification;
+import com.example.laptopstore.services.FilterSpecService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/spec")
 public class ControllerSpec {
-    private final MyFilterSpecification<Laptop> filter;
+    private final FilterSpecService<Laptop> filter;
 
     @PostMapping("/body")
     public Page<Laptop> getFromSpec(@RequestBody LaptopDTO dto,

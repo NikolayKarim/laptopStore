@@ -19,6 +19,9 @@ public class LaptopJDBCService {
     private final LaptopRepo laptopRepo;
     private final SessionFactory sessionFactory;
 
+
+
+
     public Page<Laptop> getAllLaptops(PageRequest pageRequest) {
         return laptopRepo.findAll(pageRequest);
     }

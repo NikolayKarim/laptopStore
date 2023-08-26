@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MyFilterSpecification<T> {
+public class FilterSpecService<T> {
     private final LaptopSpecRepo laptopSpecRepo;
+
 
 
     public Page<Laptop> findBySpecDTO(LaptopDTO dto, int page, int size) {
