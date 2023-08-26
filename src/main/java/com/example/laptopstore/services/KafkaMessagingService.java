@@ -1,4 +1,4 @@
-package com.example.laptopstore.services.messaging.service;
+package com.example.laptopstore.services;
 
 import com.example.laptopstore.entity.Laptop;
 import com.example.laptopstore.services.KafkaService;
